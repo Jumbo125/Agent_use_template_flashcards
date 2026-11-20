@@ -6,6 +6,7 @@ Beginner project. Read SPEC.md for what to build. Never edit SPEC.md.
 ## Technology
 - Plain HTML, CSS and JavaScript only. No frameworks, libraries, npm,
   or build tools.
+- Nutze nur Bootstrap, Bootstrap.css, Bootsrap.js
 - Files: index.html, style.css, script.js. Ask before creating new files.
 
 ## Code style

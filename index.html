@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabel-Flashcards</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Vokabel-Pairings verwalten</h1>
+
+        <form id="pairing-form" class="pairing-form">
+            <input type="hidden" id="pairing-index" value="-1">
+
+            <label for="main-word">Hauptwort</label>
+            <input id="main-word" type="text" required>
+
+            <label for="synonyms">Synonyme (durch Semikolon trennen)</label>
+            <input id="synonyms" type="text" required>
+
+            <button id="save-button" type="submit">Pairing speichern</button>
+        </form>
+
+        <p id="message" class="message" role="status"></p>
+
+        <section>
+            <h2>Gespeicherte Pairings</h2>
+            <div id="pairing-list" class="pairing-list"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
