@@ -10,31 +10,124 @@
 </head>
 <body>
     <main class="container py-4">
-        <h1 class="mb-4"><i class="bi bi-collection me-2"></i>Vokabel-Pairings verwalten</h1>
+        <h1 class="mb-4"><i class="bi bi-collection me-2"></i>Vokabel-Flashcards</h1>
 
-        <form id="pairing-form" class="pairing-form">
-            <input type="hidden" id="pairing-index" value="-1">
-
-            <div class="mb-3">
-                <label for="main-word" class="form-label">Hauptwort</label>
-                <input id="main-word" type="text" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="synonyms" class="form-label">Synonyme (durch Semikolon trennen)</label>
-                <input id="synonyms" type="text" class="form-control" required>
-            </div>
-
-            <button id="save-button" type="submit" class="btn btn-primary">
-                <i class="bi bi-floppy me-1"></i>Pairing speichern
+        <div class="menu-toggle mb-4" role="group" aria-label="Bereich auswählen">
+            <button id="show-pairings-button" type="button" class="btn btn-primary">
+                <i class="bi bi-card-list me-1"></i>Vokabel-Pairings
             </button>
-        </form>
+            <button id="show-users-button" type="button" class="btn btn-outline-primary">
+                <i class="bi bi-person me-1"></i>Benutzerverwaltung
+            </button>
+            <button id="show-practice-button" type="button" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-repeat me-1"></i>Karten üben
+            </button>
+        </div>
 
-        <p id="message" class="message" role="status"></p>
+        <section id="pairings-section">
+            <h2>Vokabel-Pairings verwalten</h2>
 
-        <section class="mt-4">
-            <h2>Gespeicherte Pairings</h2>
+            <form id="pairing-form" class="pairing-form">
+                <input type="hidden" id="pairing-index" value="-1">
+
+                <div class="mb-3">
+                    <label for="main-word" class="form-label">Hauptwort</label>
+                    <input id="main-word" type="text" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="synonyms" class="form-label">Synonyme (durch Semikolon trennen)</label>
+                    <input id="synonyms" type="text" class="form-control" required>
+                </div>
+
+                <button id="save-button" type="submit" class="btn btn-primary">
+                    <i class="bi bi-floppy me-1"></i>Pairing speichern
+                </button>
+            </form>
+
+            <p id="message" class="message" role="status"></p>
+
             <div id="pairing-list" class="pairing-list"></div>
+        </section>
+
+        <section id="users-section" class="d-none">
+            <h2>Benutzer verwalten</h2>
+
+            <form id="user-form" class="pairing-form">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Benutzername</label>
+                    <input id="username" type="text" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Passwort</label>
+                    <input id="password" type="password" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-person-plus me-1"></i>Benutzer erstellen
+                </button>
+            </form>
+
+            <p id="user-message" class="message" role="status"></p>
+
+            <form id="delete-user-form" class="pairing-form mt-3">
+                <h3>Benutzer löschen</h3>
+
+                <div class="mb-3">
+                    <label for="delete-username" class="form-label">Benutzername</label>
+                    <input id="delete-username" type="text" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="delete-password" class="form-label">Passwort</label>
+                    <input id="delete-password" type="password" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash me-1"></i>Benutzer löschen
+                </button>
+            </form>
+        </section>
+
+        <section id="practice-section" class="d-none">
+            <h2>Vokabeln üben</h2>
+
+            <div class="practice-controls">
+                <label for="practice-username" class="form-label">Benutzer auswählen</label>
+                <select id="practice-username" class="form-select"></select>
+
+                <button id="sound-button" type="button" class="btn btn-outline-secondary">
+                    <i id="sound-icon" class="bi bi-volume-mute me-1"></i>
+                    <span id="sound-text">Ton aus</span>
+                </button>
+
+                <button id="back-button" type="button" class="btn btn-outline-dark" disabled>
+                    <i class="bi bi-arrow-left me-1"></i>Ein Schritt zurück
+                </button>
+            </div>
+
+            <div class="progress mb-3" role="progressbar" aria-label="Lernfortschritt">
+                <div id="progress-bar" class="progress-bar" style="width: 0%">0%</div>
+            </div>
+
+            <p id="practice-message" class="message" role="status"></p>
+
+            <div id="flashcard" class="flashcard">
+                <div class="flashcard-inner">
+                    <div id="flashcard-front" class="flashcard-face flashcard-front">Keine Karte vorhanden</div>
+                    <div id="flashcard-back" class="flashcard-face flashcard-back">Keine Antwort vorhanden</div>
+                </div>
+            </div>
+
+            <div class="answer-buttons mt-3">
+                <button id="known-button" type="button" class="btn btn-success">
+                    <i class="bi bi-check-circle me-1"></i>Gewusst
+                </button>
+                <button id="unknown-button" type="button" class="btn btn-danger">
+                    <i class="bi bi-x-circle me-1"></i>Nicht gewusst
+                </button>
+            </div>
         </section>
     </main>
 

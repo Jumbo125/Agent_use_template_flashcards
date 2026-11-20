@@ -63,6 +63,70 @@ button {
     flex-shrink: 0;
 }
 
+.menu-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.practice-controls {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: end;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.flashcard {
+    width: min(500px, 100%);
+    height: 220px;
+    margin: 0 auto;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.flashcard.is-flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-face {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    backface-visibility: hidden;
+    text-align: center;
+    font-size: 24px;
+}
+
+.flashcard-front {
+    background: #ffffff;
+}
+
+.flashcard-back {
+    background: #e7f1ff;
+    transform: rotateY(180deg);
+}
+
+.answer-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
 @media (max-width: 500px) {
     .container {
         width: calc(100% - 20px);
@@ -72,5 +136,24 @@ button {
     .pairing-card {
         min-width: 240px;
         max-width: 240px;
+    }
+
+    .menu-toggle {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    .practice-controls {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .flashcard {
+        height: 180px;
+    }
+
+    .answer-buttons {
+        flex-direction: column;
     }
 }
