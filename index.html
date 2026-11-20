@@ -4,32 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vokabel-Flashcards</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main class="container">
-        <h1>Vokabel-Pairings verwalten</h1>
+    <main class="container py-4">
+        <h1 class="mb-4"><i class="bi bi-collection me-2"></i>Vokabel-Pairings verwalten</h1>
 
         <form id="pairing-form" class="pairing-form">
             <input type="hidden" id="pairing-index" value="-1">
 
-            <label for="main-word">Hauptwort</label>
-            <input id="main-word" type="text" required>
+            <div class="mb-3">
+                <label for="main-word" class="form-label">Hauptwort</label>
+                <input id="main-word" type="text" class="form-control" required>
+            </div>
 
-            <label for="synonyms">Synonyme (durch Semikolon trennen)</label>
-            <input id="synonyms" type="text" required>
+            <div class="mb-3">
+                <label for="synonyms" class="form-label">Synonyme (durch Semikolon trennen)</label>
+                <input id="synonyms" type="text" class="form-control" required>
+            </div>
 
-            <button id="save-button" type="submit">Pairing speichern</button>
+            <button id="save-button" type="submit" class="btn btn-primary">
+                <i class="bi bi-floppy me-1"></i>Pairing speichern
+            </button>
         </form>
 
         <p id="message" class="message" role="status"></p>
 
-        <section>
+        <section class="mt-4">
             <h2>Gespeicherte Pairings</h2>
             <div id="pairing-list" class="pairing-list"></div>
         </section>
     </main>
 
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

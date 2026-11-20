@@ -119,8 +119,8 @@ function createPairingCard(pairing, index) {
 
     card.className = "pairing-card";
     text.textContent = pairing.mainWord + " → " + pairing.synonyms.join("; ");
-    editButton.className = "edit-button";
-    editButton.textContent = "Bearbeiten";
+    editButton.className = "edit-button btn btn-success btn-sm";
+    editButton.innerHTML = '<i class="bi bi-pencil me-1"></i>Bearbeiten';
     editButton.type = "button";
     editButton.addEventListener("click", function () {
         editPairing(index);
