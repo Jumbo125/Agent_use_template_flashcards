@@ -1,4 +1,4 @@
-# Spec: Vocab Flashcards
+# Spec: DnD encounter randomizer
 
 ## Goal (one or two sentences)
 
@@ -6,11 +6,8 @@
 
 ## Features (numbered, so prompts can refer to them)
 
-
 ## Acceptance criteria (how I know a feature works)
 
-
 ## Out of scope (do NOT build)
-
 
 ## Look & feel

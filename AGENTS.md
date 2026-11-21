@@ -1,14 +1,17 @@
 # Instructions for AI assistants
 
 ## Project
+
 Beginner project. Read SPEC.md for what to build. Never edit SPEC.md.
 
 ## Technology
+
 - Plain HTML, CSS and JavaScript only. No frameworks, libraries, npm,
-  or build tools.
+  or build tools, except dnd API for official DnD content.
 - Files: index.html, style.css, script.js. Ask before creating new files.
 
 ## Code style
+
 - Write code a first-semester student can read: simple loops,
   descriptive variable names, small functions (max ~20 lines).
 - Use const/let, never var. Use addEventListener, not onclick attributes.
@@ -17,6 +20,7 @@ Beginner project. Read SPEC.md for what to build. Never edit SPEC.md.
   async chains) unless I explicitly ask.
 
 ## How to work
+
 - Only implement what the current prompt asks for. Do not add
   extra features, even if they seem useful. Suggest them instead.
 - Only change the files and functions needed for this step.
