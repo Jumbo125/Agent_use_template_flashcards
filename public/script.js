@@ -38,6 +38,20 @@ function showLoggedInUser(user) {
   document.getElementById("userInfoSection").style.display = "block";
   isLoggedIn = true;
   loadUserInfo();
+
+  const loginButton = document.getElementById("loginButton");
+  loginButton.textContent = "Logout";
+  loginButton.classList.remove("btn-info");
+  loginButton.classList.add("btn-danger");
+  loginButton.removeAttribute("data-bs-toggle");
+  loginButton.removeAttribute("data-bs-target");
+  loginButton.addEventListener("click", handleLogoutClick);
+}
+
+// Meldet den User beim Server ab und lädt die Seite neu (zurück in den ausgeloggten Zustand).
+async function handleLogoutClick() {
+  await fetch("/api/logout", { method: "POST" });
+  window.location.reload();
 }
 
 // Schließt das Login-Modal nach erfolgreichem Login.

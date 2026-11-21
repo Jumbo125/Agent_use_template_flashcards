@@ -106,6 +106,13 @@ app.post("/api/login", (req, res) => {
   res.json({ username: user.username, name: user.name });
 });
 
+// Beendet die Session des eingeloggten Users (Logout).
+app.post("/api/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.json({ success: true });
+  });
+});
+
 // Gibt den aktuell eingeloggten Benutzer zurück, falls eine Session besteht.
 app.get("/api/session", (req, res) => {
   if (req.session.username) {

@@ -22,6 +22,7 @@
         <span id="loginStatus" class="me-2"></span>
         <button
           type="button"
+          id="loginButton"
           class="btn btn-sm btn-info"
           data-bs-toggle="modal"
           data-bs-target="#loginModal"
@@ -34,11 +35,11 @@
 
   <main class="container">
     <div class="accordion" id="mainAccordion">
-      <!-- Feedback folgt in einem späteren Schritt -->
+      <!-- Feedback folgt in einem späteren Schritt (Farbe: bg-light) -->
       <div class="accordion-item">
         <h2 class="accordion-header">
           <button
-            class="accordion-button"
+            class="accordion-button bg-dark text-white"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#searchCollapse"
@@ -64,7 +65,7 @@
       <div class="accordion-item" id="addEntrySection" style="display: none;">
         <h2 class="accordion-header">
           <button
-            class="accordion-button"
+            class="accordion-button bg-success text-white"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#addEntryCollapse"
@@ -108,7 +109,7 @@
       <div class="accordion-item" id="userInfoSection" style="display: none;">
         <h2 class="accordion-header">
           <button
-            class="accordion-button"
+            class="accordion-button bg-warning text-dark"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#userInfoCollapse"
