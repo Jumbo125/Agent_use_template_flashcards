@@ -33,7 +33,72 @@
   </header>
 
   <main class="container">
-    <!-- Weitere Bereiche (Suche, Hinzufügen, User-Infos, Feedback) folgen in späteren Schritten -->
+    <div class="accordion" id="mainAccordion">
+      <!-- Weitere Bereiche (User-Infos, Feedback) folgen in späteren Schritten -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#searchCollapse"
+          >
+            Suche
+          </button>
+        </h2>
+        <div class="accordion-collapse collapse show" id="searchCollapse" data-bs-parent="#mainAccordion">
+          <div class="accordion-body">
+            <form id="searchForm" class="d-flex gap-2 mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="searchInput"
+                placeholder="Suchbegriff (mind. 4 Zeichen)"
+              />
+              <button type="submit" class="btn btn-success">Suchen</button>
+            </form>
+            <div id="searchResults" class="search-results list-group"></div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item" id="addEntrySection" style="display: none;">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#addEntryCollapse"
+          >
+            Eintrag hinzufügen
+          </button>
+        </h2>
+        <div class="accordion-collapse collapse" id="addEntryCollapse" data-bs-parent="#mainAccordion">
+          <div class="accordion-body">
+            <form id="addEntryForm">
+              <div class="mb-3">
+                <label for="entryTitle" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="entryTitle" required />
+              </div>
+              <div class="mb-3">
+                <label for="entryDescription" class="form-label">Beschreibung</label>
+                <textarea class="form-control" id="entryDescription" rows="4" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="entryVideo" class="form-label">Video</label>
+                <input type="file" class="form-control" id="entryVideo" accept="video/*" required />
+              </div>
+              <div class="mb-3">
+                <label for="entryAttachments" class="form-label">Anhänge</label>
+                <input type="file" class="form-control" id="entryAttachments" multiple />
+              </div>
+              <div id="addEntryError" class="text-danger small mb-2"></div>
+              <div id="addEntrySuccess" class="text-success small mb-2"></div>
+              <button type="submit" class="btn btn-success">Speichern</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- Login-Modal -->

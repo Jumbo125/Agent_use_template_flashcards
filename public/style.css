@@ -1,0 +1,6 @@
+/* style.css - Zusatzstile für "TikTok für Stationen" */
+
+.search-results {
+  max-height: 300px;
+  overflow-y: auto;
+}
