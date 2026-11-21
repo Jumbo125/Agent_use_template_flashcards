@@ -23,6 +23,11 @@
 - Added `users.json` for login credentials without a database.
 - Implemented SHA-256 password hashing in the browser.
 - Added login success, invalid-login feedback and logout behavior.
+- Added a study administration area for logged-in users.
+- Added a form for creating and editing studies.
+- Added study fields for title, category, overview, recruitment status and details.
+- Saved study changes in browser local storage.
+- Added a JSON download action for saving the current study data.
 
 ## Next
 

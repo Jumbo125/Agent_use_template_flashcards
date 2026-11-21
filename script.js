@@ -6,6 +6,11 @@ const backToCategories = document.querySelector("#backToCategories");
 const loginForm = document.querySelector("#loginForm");
 const loginMessage = document.querySelector("#loginMessage");
 const openLogin = document.querySelector("#openLogin");
+const studyAdminActions = document.querySelector("#studyAdminActions");
+const addStudyButton = document.querySelector("#addStudyButton");
+const downloadStudiesButton = document.querySelector("#downloadStudiesButton");
+const studyForm = document.querySelector("#studyForm");
+const studyModalTitle = document.querySelector("#studyModalTitle");
 let studies = [];
 let users = [];
 let loggedIn = false;
@@ -80,15 +85,22 @@ function updateLoginButton() {
 
   if (loggedInUser !== null) {
     loggedIn = true;
+    studyAdminActions.hidden = false;
     openLogin.innerHTML =
       '<i class="bi bi-person-check"></i> ' + loggedInUser + " (Logout)";
     openLogin.removeAttribute("data-bs-toggle");
     openLogin.removeAttribute("data-bs-target");
   } else {
     loggedIn = false;
+    studyAdminActions.hidden = true;
     openLogin.innerHTML = '<i class="bi bi-person"></i> Login';
     openLogin.setAttribute("data-bs-toggle", "modal");
     openLogin.setAttribute("data-bs-target", "#loginModal");
+  }
+
+  const selectedCategory = document.querySelector(".category-button.selected");
+  if (selectedCategory !== null) {
+    showStudies(selectedCategory.dataset.category);
   }
 }
 
@@ -102,6 +114,13 @@ openLogin.addEventListener("click", function () {
 
 // Load all studies from the JSON data file.
 function loadStudies() {
+  const savedStudies = localStorage.getItem("clinicalStudies");
+
+  if (savedStudies !== null) {
+    studies = JSON.parse(savedStudies);
+    return Promise.resolve();
+  }
+
   return fetch("studies.json")
     .then(function (response) {
       if (!response.ok) {
@@ -149,17 +168,26 @@ function showStudies(category) {
           '<button class="close-details-button btn btn-sm btn-secondary" type="button">Back to list</button>' +
         "</div>";
 
+      if (loggedIn) {
+        studyItem.innerHTML =
+          studyItem.innerHTML +
+          '<button class="edit-study-button btn btn-outline-primary btn-sm" type="button">' +
+            '<i class="bi bi-pencil"></i> Edit' +
+          "</button>";
+      }
+
       studyList.appendChild(studyItem);
-      addDetailsBehavior(studyItem);
+      addDetailsBehavior(studyItem, index);
     }
   }
 }
 
 // Open or close the details area inside one study row.
-function addDetailsBehavior(studyItem) {
+function addDetailsBehavior(studyItem, studyIndex) {
   const detailsButton = studyItem.querySelector(".details-button");
   const closeButton = studyItem.querySelector(".close-details-button");
   const details = studyItem.querySelector(".study-details");
+  const editButton = studyItem.querySelector(".edit-study-button");
 
   detailsButton.addEventListener("click", function () {
     details.hidden = false;
@@ -170,6 +198,12 @@ function addDetailsBehavior(studyItem) {
     details.hidden = true;
     detailsButton.hidden = false;
   });
+
+  if (editButton !== null) {
+    editButton.addEventListener("click", function () {
+      openStudyForm(studyIndex);
+    });
+  }
 }
 
 // Mark the clicked category as selected and show matching studies.
@@ -198,6 +232,75 @@ backToCategories.addEventListener("click", function () {
   studyList.innerHTML = "";
   categoryResult.textContent = "Please select a category.";
   backToCategories.hidden = true;
+});
+
+// Reset the form and open it in add mode.
+addStudyButton.addEventListener("click", function () {
+  studyForm.reset();
+  document.querySelector("#studyIndex").value = "-1";
+  studyModalTitle.textContent = "Add study";
+});
+
+// Fill the form and open it in edit mode.
+function openStudyForm(studyIndex) {
+  const study = studies[studyIndex];
+
+  document.querySelector("#studyIndex").value = studyIndex;
+  document.querySelector("#studyTitle").value = study.title;
+  document.querySelector("#studyCategory").value = study.category;
+  document.querySelector("#studyOverview").value = study.overview;
+  document.querySelector("#studyDetails").value = study.details;
+  document.querySelector("#studyRecruiting").checked = study.recruiting;
+  studyModalTitle.textContent = "Edit study";
+
+  const studyModal = new bootstrap.Modal(
+    document.querySelector("#studyModal")
+  );
+  studyModal.show();
+}
+
+// Save a new or edited study in local JSON storage.
+studyForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const studyIndex = Number(document.querySelector("#studyIndex").value);
+  const savedStudy = {
+    title: document.querySelector("#studyTitle").value,
+    category: document.querySelector("#studyCategory").value,
+    overview: document.querySelector("#studyOverview").value,
+    recruiting: document.querySelector("#studyRecruiting").checked,
+    details: document.querySelector("#studyDetails").value
+  };
+
+  if (studyIndex === -1) {
+    studies.push(savedStudy);
+  } else {
+    studies[studyIndex] = savedStudy;
+  }
+
+  localStorage.setItem("clinicalStudies", JSON.stringify(studies));
+
+  const studyModal = bootstrap.Modal.getInstance(
+    document.querySelector("#studyModal")
+  );
+  studyModal.hide();
+
+  const selectedCategory = document.querySelector(".category-button.selected");
+  if (selectedCategory !== null) {
+    showStudies(selectedCategory.dataset.category);
+  }
+});
+
+// Download the current studies as a JSON file.
+downloadStudiesButton.addEventListener("click", function () {
+  const jsonText = JSON.stringify(studies, null, 2);
+  const dataBlob = new Blob([jsonText], { type: "application/json" });
+  const downloadLink = document.createElement("a");
+
+  downloadLink.href = URL.createObjectURL(dataBlob);
+  downloadLink.download = "studies.json";
+  downloadLink.click();
+  URL.revokeObjectURL(downloadLink.href);
 });
 
 const studiesLoaded = loadStudies();

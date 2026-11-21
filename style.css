@@ -140,6 +140,14 @@ h1 {
   color: var(--liver);
 }
 
+.study-admin-actions {
+  padding-bottom: 4px;
+}
+
+.edit-study-button {
+  margin-left: auto;
+}
+
 @media (max-width: 575.98px) {
   .study-status {
     align-items: flex-start;
