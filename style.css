@@ -101,6 +101,77 @@ h2 {
   font-weight: bold;
 }
 
+.study-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.study-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 20px;
+  background: #f9fafc;
+  border: 2px solid #d9e0ea;
+  border-radius: 10px;
+}
+
+.study-main h3 {
+  margin: 0 0 5px;
+  color: #263248;
+  font-size: 1.25rem;
+}
+
+.study-main p {
+  margin: 4px 0 0;
+  color: #536174;
+}
+
+.study-main .study-category {
+  display: inline-block;
+  margin: 0 0 5px;
+  padding: 3px 8px;
+  color: #32578a;
+  background: #e7eef8;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.study-status {
+  display: grid;
+  justify-items: center;
+  min-width: 104px;
+  color: #263248;
+  text-align: center;
+}
+
+.study-status span {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 1.35rem;
+  font-weight: bold;
+}
+
+.study-status small {
+  margin-top: 6px;
+  font-weight: bold;
+}
+
+.study-status.recruiting {
+  color: #357a3e;
+}
+
+.study-status.not-recruiting {
+  color: #b64b43;
+}
+
 @media (max-width: 600px) {
   .page {
     width: min(92%, 920px);
@@ -113,5 +184,13 @@ h2 {
 
   .category-button {
     min-height: 72px;
+  }
+
+  .study-item {
+    grid-template-columns: 1fr;
+  }
+
+  .study-status {
+    justify-items: start;
   }
 }

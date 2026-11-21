@@ -35,6 +35,7 @@ Build a simple website for principal investigators, sub-investigators and physic
    - Clicking a study opens or expands a details view.
    - The details view shows more information about the selected study.
    - The user can return to the study list.
+   - Save all studies as JSON files
 
 5. **Navigation flow**
    - Find a category, browse matching studies, then open study details.
