@@ -11,7 +11,7 @@
   atomarem Schreiben in data/entries.json) + Formular im Frontend, nur sichtbar für eingeloggte User
 - Feature 3 "Suche": Endpunkt `GET /api/entries/search?q=...` (ab 4 Zeichen) + Such-Bereich im Accordion
   mit scrollbarer Trefferliste; Treffer-Titel verlinkt auf `/entry.html?id=...` (Detailseite folgt),
-  roter Edit-Button nur für eingeloggte User sichtbar
+  roter Edit-Button nur für eingeloggte User sichtbar 
 
 ## Next
 
