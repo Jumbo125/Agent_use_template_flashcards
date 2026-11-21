@@ -28,6 +28,10 @@
 - Added study fields for title, category, overview, recruitment status and details.
 - Saved study changes in browser local storage.
 - Added a JSON download action for saving the current study data.
+- Added an Express server in `server.js`.
+- Added `package.json` with the start script and Express dependency.
+- Added API endpoints for login, study loading, study creation and study editing.
+- Connected the browser login and study form to the Express API.
 
 ## Next
 

@@ -14,22 +14,11 @@ const studyModalTitle = document.querySelector("#studyModalTitle");
 let studies = [];
 let users = [];
 let loggedIn = false;
+let authToken = "";
 
 // Load login credentials from a JSON file.
 function loadUsers() {
-  fetch("users.json")
-    .then(function (response) {
-      if (!response.ok) {
-        throw new Error("The users.json file could not be loaded.");
-      }
-      return response.json();
-    })
-    .then(function (loadedUsers) {
-      users = loadedUsers;
-    })
-    .catch(function (error) {
-      loginMessage.textContent = error.message;
-    });
+  users = [];
 }
 
 // Convert a password to a SHA-256 hexadecimal hash.
@@ -52,36 +41,44 @@ loginForm.addEventListener("submit", async function (event) {
   const username = document.querySelector("#username").value;
   const password = document.querySelector("#password").value;
   const passwordHash = await hashPassword(password);
-  let matchingUser = null;
 
-  for (let index = 0; index < users.length; index++) {
-    const user = users[index];
+  fetch("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: username,
+      passwordSha256: passwordHash
+    })
+  })
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("Invalid username or password.");
+      }
+      return response.json();
+    })
+    .then(function (loginData) {
+      authToken = loginData.token;
+      loggedIn = true;
+      sessionStorage.setItem("loggedInUser", loginData.username);
+      sessionStorage.setItem("authToken", authToken);
+      updateLoginButton();
+      loginMessage.textContent = "";
+      loginForm.reset();
 
-    if (user.username === username && user.passwordSha256 === passwordHash) {
-      matchingUser = user;
-    }
-  }
-
-  if (matchingUser === null) {
-    loginMessage.textContent = "Invalid username or password.";
-    return;
-  }
-
-  loggedIn = true;
-  sessionStorage.setItem("loggedInUser", matchingUser.username);
-  updateLoginButton();
-  loginMessage.textContent = "";
-  loginForm.reset();
-
-  const loginModal = bootstrap.Modal.getInstance(
-    document.querySelector("#loginModal")
-  );
-  loginModal.hide();
+      const loginModal = bootstrap.Modal.getInstance(
+        document.querySelector("#loginModal")
+      );
+      loginModal.hide();
+    })
+    .catch(function (error) {
+      loginMessage.textContent = error.message;
+    });
 });
 
 // Update the Login button after login or logout.
 function updateLoginButton() {
   const loggedInUser = sessionStorage.getItem("loggedInUser");
+  authToken = sessionStorage.getItem("authToken") || "";
 
   if (loggedInUser !== null) {
     loggedIn = true;
@@ -108,20 +105,15 @@ function updateLoginButton() {
 openLogin.addEventListener("click", function () {
   if (loggedIn) {
     sessionStorage.removeItem("loggedInUser");
+    sessionStorage.removeItem("authToken");
+    authToken = "";
     updateLoginButton();
   }
 });
 
 // Load all studies from the JSON data file.
 function loadStudies() {
-  const savedStudies = localStorage.getItem("clinicalStudies");
-
-  if (savedStudies !== null) {
-    studies = JSON.parse(savedStudies);
-    return Promise.resolve();
-  }
-
-  return fetch("studies.json")
+  return fetch("/api/studies")
     .then(function (response) {
       if (!response.ok) {
         throw new Error("The studies.json file could not be loaded.");
@@ -272,23 +264,50 @@ studyForm.addEventListener("submit", function (event) {
     details: document.querySelector("#studyDetails").value
   };
 
-  if (studyIndex === -1) {
-    studies.push(savedStudy);
-  } else {
-    studies[studyIndex] = savedStudy;
-  }
+  const requestUrl =
+    studyIndex === -1
+      ? "/api/studies"
+      : "/api/studies/" + studyIndex;
+  const requestMethod =
+    studyIndex === -1 ? "POST" : "PUT";
 
-  localStorage.setItem("clinicalStudies", JSON.stringify(studies));
+  fetch(requestUrl, {
+    method: requestMethod,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + authToken
+    },
+    body: JSON.stringify(savedStudy)
+  })
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("The study could not be saved.");
+      }
+      return response.json();
+    })
+    .then(function () {
+      return fetch("/api/studies");
+    })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (loadedStudies) {
+      studies = loadedStudies;
 
-  const studyModal = bootstrap.Modal.getInstance(
-    document.querySelector("#studyModal")
-  );
-  studyModal.hide();
+      const studyModal = bootstrap.Modal.getInstance(
+        document.querySelector("#studyModal")
+      );
+      studyModal.hide();
 
-  const selectedCategory = document.querySelector(".category-button.selected");
-  if (selectedCategory !== null) {
-    showStudies(selectedCategory.dataset.category);
-  }
+      const selectedCategory =
+        document.querySelector(".category-button.selected");
+      if (selectedCategory !== null) {
+        showStudies(selectedCategory.dataset.category);
+      }
+    })
+    .catch(function (error) {
+      window.alert(error.message);
+    });
 });
 
 // Download the current studies as a JSON file.
