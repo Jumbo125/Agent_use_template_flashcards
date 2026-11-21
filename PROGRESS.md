@@ -15,10 +15,12 @@
 - Feature 4 "Detailseite": Endpunkt `GET /api/entries/:id` + eigene Seite `public/entry.html` mit
   eigener URL, zeigt Video, Beschreibung, Autor, Anhänge-Liste und QR-Code (QRCode.js) zu dieser Seite;
   roter Bearbeiten-Button nur sichtbar, wenn eine Session besteht
+- Feature 5 "QR-Code nach dem Speichern": nach erfolgreichem Speichern eines Eintrags zeigt das
+  Formular "Eintrag hinzufügen" direkt den Link zur neuen Detailseite und einen QR-Code dazu
+  (QRCode.js), ohne Reload der Seite
 
 ## Next
 
-- Feature 5: QR-Code-Anzeige direkt nach dem Speichern eines neuen Eintrags
 - Feature 6: User-Infos (Username, Name, Passwort ändern, Login-Zeitstempel)
 - Feature 7: Feedback-Formular
 

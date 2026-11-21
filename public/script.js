@@ -89,6 +89,26 @@ async function handleAddEntrySubmit(event) {
   errorBox.textContent = "";
   successBox.textContent = `Eintrag "${data.title}" wurde gespeichert.`;
   document.getElementById("addEntryForm").reset();
+  showNewEntryQrCode(data.id);
+}
+
+// Zeigt den Link zum neuen Eintrag und erzeugt dazu einen QR-Code.
+function showNewEntryQrCode(entryId) {
+  const entryUrl = window.location.origin + "/entry.html?id=" + entryId;
+
+  const linkElement = document.getElementById("newEntryLink");
+  linkElement.href = entryUrl;
+  linkElement.textContent = entryUrl;
+
+  const qrCodeBox = document.getElementById("newEntryQrCode");
+  qrCodeBox.innerHTML = "";
+  new QRCode(qrCodeBox, {
+    text: entryUrl,
+    width: 160,
+    height: 160,
+  });
+
+  document.getElementById("newEntryBox").style.display = "block";
 }
 
 // Schickt den Suchbegriff an den Server und zeigt die Treffer an.
