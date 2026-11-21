@@ -1,0 +1,13 @@
+{
+  "name": "tiktok-fuer-stationen",
+  "version": "1.0.0",
+  "description": "Gebrauchsanweisungs-Videos mit QR-Code fuer die Station",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  }
+}
