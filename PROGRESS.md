@@ -23,10 +23,16 @@
   (optionales) neues Passwort, sowie Anzeige des zuletzt gespeicherten Login-Zeitstempels
   (lesbar formatiert mit `toLocaleString`); der Login-Zeitstempel wird bei jedem erfolgreichen
   Login in `users.json` aktualisiert und atomar geschrieben
+- Feature 8 "Oberflächenstruktur": Header enthält jetzt nur noch den Titel; Login- und
+  Impressum-Button sind in einen neuen Footer gewandert (`btn-info` / `btn-warning`, beide als
+  Bootstrap-Modal ohne Seitenwechsel); neues Impressum-Modal mit Platzhaltertext ergänzt;
+  vierter Accordion-Bereich "Feedback" (Farbe `bg-light`) als Platzhalter ergänzt, damit alle
+  vier im Spec genannten Bereiche (Suche, Hinzufügen, User-Infos, Feedback) existieren
 
 ## Next
 
-- Feature 7: Feedback-Formular
+- Feature 7: Feedback-Formular (Endpunkt `POST /api/feedback`, `data/feedback.json`, Formular im
+  bestehenden Feedback-Accordion-Bereich)
 
 ## Decisions & notes
 
@@ -39,3 +45,7 @@
 
 - Bearbeiten-Button auf der Detailseite zeigt nur einen Platzhalter-Hinweis ("folgt in einem
   späteren Schritt"); ein echtes Bearbeiten-Formular/Endpunkt existiert noch nicht
+- Der Feedback-Accordion-Bereich zeigt nur einen Platzhaltertext, das Formular folgt erst mit
+  Feature 7
+- Das Impressum-Modal enthält nur einen Platzhaltertext; echte Kontaktdaten der Station fehlen
+  noch
