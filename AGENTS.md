@@ -27,4 +27,4 @@ Beginner project. Read SPEC.md for what to build. Never edit SPEC.md.
 - If something is unclear, ask a question before writing code.
 - After making changes, explain briefly what you changed and why,
   and tell me how to test it in the browser.
-- At the end of each step, propose an update to PROGRESS.md.
+- At the end of each step, propose an update to PROGRESS.md, and let me check the results to make a git commit and push
