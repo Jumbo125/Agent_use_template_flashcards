@@ -35,7 +35,9 @@ function showLoggedInUser(user) {
   const statusSpan = document.getElementById("loginStatus");
   statusSpan.textContent = `Eingeloggt als ${user.name}`;
   document.getElementById("addEntrySection").style.display = "block";
+  document.getElementById("userInfoSection").style.display = "block";
   isLoggedIn = true;
+  loadUserInfo();
 }
 
 // Schließt das Login-Modal nach erfolgreichem Login.
@@ -111,6 +113,55 @@ function showNewEntryQrCode(entryId) {
   document.getElementById("newEntryBox").style.display = "block";
 }
 
+// Lädt die User-Infos vom Server und füllt damit das Formular.
+async function loadUserInfo() {
+  const response = await fetch("/api/user-info");
+  const user = await response.json();
+
+  document.getElementById("userInfoUsername").value = user.username;
+  document.getElementById("userInfoName").value = user.name;
+  document.getElementById("userInfoLastLogin").textContent = formatLastLogin(user.lastLogin);
+}
+
+// Wandelt den gespeicherten Zeitstempel des letzten Logins in ein lesbares Datum um.
+function formatLastLogin(lastLogin) {
+  if (!lastLogin) {
+    return "Noch nie";
+  }
+  return new Date(lastLogin).toLocaleString("de-AT");
+}
+
+// Schickt die geänderten User-Infos (Username, Name, Passwort) an den Server.
+async function handleUserInfoSubmit(event) {
+  event.preventDefault();
+
+  const username = document.getElementById("userInfoUsername").value;
+  const name = document.getElementById("userInfoName").value;
+  const password = document.getElementById("userInfoPassword").value;
+  const errorBox = document.getElementById("userInfoError");
+  const successBox = document.getElementById("userInfoSuccess");
+
+  const response = await fetch("/api/user-info", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, name, password }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    successBox.textContent = "";
+    errorBox.textContent = data.error;
+    return;
+  }
+
+  errorBox.textContent = "";
+  successBox.textContent = "User-Infos wurden gespeichert.";
+  document.getElementById("userInfoPassword").value = "";
+  document.getElementById("userInfoLastLogin").textContent = formatLastLogin(data.lastLogin);
+  document.getElementById("loginStatus").textContent = `Eingeloggt als ${data.name}`;
+}
+
 // Schickt den Suchbegriff an den Server und zeigt die Treffer an.
 async function handleSearchSubmit(event) {
   event.preventDefault();
@@ -169,4 +220,5 @@ function renderSearchResults(entries) {
 document.getElementById("loginForm").addEventListener("submit", handleLoginSubmit);
 document.getElementById("addEntryForm").addEventListener("submit", handleAddEntrySubmit);
 document.getElementById("searchForm").addEventListener("submit", handleSearchSubmit);
+document.getElementById("userInfoForm").addEventListener("submit", handleUserInfoSubmit);
 checkExistingSession();

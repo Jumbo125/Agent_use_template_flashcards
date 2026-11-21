@@ -34,7 +34,7 @@
 
   <main class="container">
     <div class="accordion" id="mainAccordion">
-      <!-- Weitere Bereiche (User-Infos, Feedback) folgen in späteren Schritten -->
+      <!-- Feedback folgt in einem späteren Schritt -->
       <div class="accordion-item">
         <h2 class="accordion-header">
           <button
@@ -102,6 +102,42 @@
               </p>
               <div id="newEntryQrCode"></div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item" id="userInfoSection" style="display: none;">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#userInfoCollapse"
+          >
+            User-Infos
+          </button>
+        </h2>
+        <div class="accordion-collapse collapse" id="userInfoCollapse" data-bs-parent="#mainAccordion">
+          <div class="accordion-body">
+            <form id="userInfoForm">
+              <div class="mb-3">
+                <label for="userInfoUsername" class="form-label">Benutzername</label>
+                <input type="text" class="form-control" id="userInfoUsername" required />
+              </div>
+              <div class="mb-3">
+                <label for="userInfoName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="userInfoName" required />
+              </div>
+              <div class="mb-3">
+                <label for="userInfoPassword" class="form-label">
+                  Neues Passwort (leer lassen, um es nicht zu ändern)
+                </label>
+                <input type="password" class="form-control" id="userInfoPassword" />
+              </div>
+              <p class="mb-2">Letzter Login: <span id="userInfoLastLogin"></span></p>
+              <div id="userInfoError" class="text-danger small mb-2"></div>
+              <div id="userInfoSuccess" class="text-success small mb-2"></div>
+              <button type="submit" class="btn btn-success">Speichern</button>
+            </form>
           </div>
         </div>
       </div>

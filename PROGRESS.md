@@ -18,16 +18,22 @@
 - Feature 5 "QR-Code nach dem Speichern": nach erfolgreichem Speichern eines Eintrags zeigt das
   Formular "Eintrag hinzufügen" direkt den Link zur neuen Detailseite und einen QR-Code dazu
   (QRCode.js), ohne Reload der Seite
+- Feature 6 "User-Infos": Endpunkte `GET /api/user-info` und `POST /api/user-info` (beide nur für
+  eingeloggte User) + neuer Accordion-Bereich im Frontend mit Formular für Username, Name und
+  (optionales) neues Passwort, sowie Anzeige des zuletzt gespeicherten Login-Zeitstempels
+  (lesbar formatiert mit `toLocaleString`); der Login-Zeitstempel wird bei jedem erfolgreichen
+  Login in `users.json` aktualisiert und atomar geschrieben
 
 ## Next
 
-- Feature 6: User-Infos (Username, Name, Passwort ändern, Login-Zeitstempel)
 - Feature 7: Feedback-Formular
 
 ## Decisions & notes
 
 - Beschreibung aktuell als einfaches Textarea (kein TinyMCE), um Abhängigkeiten minimal zu halten
 - Upload-Dateien liegen flach in uploads/ mit Zeitstempel-Prefix im Dateinamen (keine Unterordner)
+- Beim Ändern des Usernamens in den User-Infos wird keine Prüfung auf doppelte Usernamen gemacht
+  (aktuell existiert ohnehin nur ein Testuser)
 
 ## Known problems
 

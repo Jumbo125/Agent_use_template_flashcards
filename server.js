@@ -46,6 +46,13 @@ function writeEntriesAtomic(entries) {
   fs.renameSync(tempFile, ENTRIES_FILE);
 }
 
+// Schreibt die Benutzerliste atomar: erst in eine Temp-Datei, dann umbenennen.
+function writeUsersAtomic(users) {
+  const tempFile = USERS_FILE + ".tmp";
+  fs.writeFileSync(tempFile, JSON.stringify(users, null, 2));
+  fs.renameSync(tempFile, USERS_FILE);
+}
+
 // Lässt nur eingeloggte User weitermachen, sonst Fehler 401.
 function requireLogin(req, res, next) {
   if (!req.session.username) {
@@ -92,6 +99,10 @@ app.post("/api/login", (req, res) => {
 
   req.session.username = user.username;
   req.session.name = user.name;
+
+  user.lastLogin = new Date().toISOString();
+  writeUsersAtomic(users);
+
   res.json({ username: user.username, name: user.name });
 });
 
@@ -102,6 +113,39 @@ app.get("/api/session", (req, res) => {
   } else {
     res.json({ username: null });
   }
+});
+
+// Gibt Username, Name und letzten Login des eingeloggten Users zurück.
+app.get("/api/user-info", requireLogin, (req, res) => {
+  const users = readUsers();
+  const user = users.find((u) => u.username === req.session.username);
+  res.json({ username: user.username, name: user.name, lastLogin: user.lastLogin || null });
+});
+
+// Ändert Username, Name und/oder Passwort des eingeloggten Users.
+app.post("/api/user-info", requireLogin, (req, res) => {
+  const { username, name, password } = req.body;
+
+  if (!username || !name) {
+    res.status(400).json({ error: "Benutzername und Name sind Pflichtfelder." });
+    return;
+  }
+
+  const users = readUsers();
+  const user = users.find((u) => u.username === req.session.username);
+
+  user.username = username;
+  user.name = name;
+  if (password) {
+    user.passwordHash = hashPassword(password);
+  }
+
+  writeUsersAtomic(users);
+
+  req.session.username = user.username;
+  req.session.name = user.name;
+
+  res.json({ username: user.username, name: user.name, lastLogin: user.lastLogin || null });
 });
 
 // Sucht Einträge, deren Titel den Suchbegriff enthält (ohne Groß-/Kleinschreibung).
