@@ -19,6 +19,10 @@
 - Verified that `script.js` has valid JavaScript syntax.
 - Implemented the navigation from category selection to study list and details.
 - Added a `Back to categories` action for returning to category selection.
+- Added a login modal with username and password fields.
+- Added `users.json` for login credentials without a database.
+- Implemented SHA-256 password hashing in the browser.
+- Added login success, invalid-login feedback and logout behavior.
 
 ## Next
 

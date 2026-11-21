@@ -3,7 +3,102 @@ const categoryButtons = document.querySelectorAll(".category-button");
 const categoryResult = document.querySelector("#categoryResult");
 const studyList = document.querySelector("#studyList");
 const backToCategories = document.querySelector("#backToCategories");
+const loginForm = document.querySelector("#loginForm");
+const loginMessage = document.querySelector("#loginMessage");
+const openLogin = document.querySelector("#openLogin");
 let studies = [];
+let users = [];
+let loggedIn = false;
+
+// Load login credentials from a JSON file.
+function loadUsers() {
+  fetch("users.json")
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("The users.json file could not be loaded.");
+      }
+      return response.json();
+    })
+    .then(function (loadedUsers) {
+      users = loadedUsers;
+    })
+    .catch(function (error) {
+      loginMessage.textContent = error.message;
+    });
+}
+
+// Convert a password to a SHA-256 hexadecimal hash.
+async function hashPassword(password) {
+  const passwordBytes = new TextEncoder().encode(password);
+  const hashBytes = await crypto.subtle.digest("SHA-256", passwordBytes);
+  const hashArray = Array.from(new Uint8Array(hashBytes));
+
+  return hashArray
+    .map(function (byte) {
+      return byte.toString(16).padStart(2, "0");
+    })
+    .join("");
+}
+
+// Check the entered credentials against the JSON data.
+loginForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  const username = document.querySelector("#username").value;
+  const password = document.querySelector("#password").value;
+  const passwordHash = await hashPassword(password);
+  let matchingUser = null;
+
+  for (let index = 0; index < users.length; index++) {
+    const user = users[index];
+
+    if (user.username === username && user.passwordSha256 === passwordHash) {
+      matchingUser = user;
+    }
+  }
+
+  if (matchingUser === null) {
+    loginMessage.textContent = "Invalid username or password.";
+    return;
+  }
+
+  loggedIn = true;
+  sessionStorage.setItem("loggedInUser", matchingUser.username);
+  updateLoginButton();
+  loginMessage.textContent = "";
+  loginForm.reset();
+
+  const loginModal = bootstrap.Modal.getInstance(
+    document.querySelector("#loginModal")
+  );
+  loginModal.hide();
+});
+
+// Update the Login button after login or logout.
+function updateLoginButton() {
+  const loggedInUser = sessionStorage.getItem("loggedInUser");
+
+  if (loggedInUser !== null) {
+    loggedIn = true;
+    openLogin.innerHTML =
+      '<i class="bi bi-person-check"></i> ' + loggedInUser + " (Logout)";
+    openLogin.removeAttribute("data-bs-toggle");
+    openLogin.removeAttribute("data-bs-target");
+  } else {
+    loggedIn = false;
+    openLogin.innerHTML = '<i class="bi bi-person"></i> Login';
+    openLogin.setAttribute("data-bs-toggle", "modal");
+    openLogin.setAttribute("data-bs-target", "#loginModal");
+  }
+}
+
+// Log out the current user.
+openLogin.addEventListener("click", function () {
+  if (loggedIn) {
+    sessionStorage.removeItem("loggedInUser");
+    updateLoginButton();
+  }
+});
 
 // Load all studies from the JSON data file.
 function loadStudies() {
@@ -106,3 +201,5 @@ backToCategories.addEventListener("click", function () {
 });
 
 const studiesLoaded = loadStudies();
+loadUsers();
+updateLoginButton();
