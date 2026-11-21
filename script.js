@@ -56,28 +56,28 @@ function showStudies(category) {
     const study = studies[index];
 
     if (study.category === category) {
-      const statusSymbol = study.recruiting ? "✓" : "✕";
+      const statusIcon = study.recruiting ? "bi-check-circle-fill" : "bi-x-circle-fill";
       const statusText = study.recruiting ? "Recruiting" : "Not recruiting";
       const studyItem = document.createElement("article");
 
-      studyItem.className = "study-item";
+      studyItem.className = "study-item list-group-item";
       studyItem.innerHTML =
         '<div class="study-main">' +
-          "<h3>" + study.title + "</h3>" +
-          '<p class="study-category">' + study.category + "</p>" +
-          "<p>" + study.overview + "</p>" +
+          "<h3 class=\"h6 mb-1\">" + study.title + "</h3>" +
+          '<span class="badge study-category mb-1">' + study.category + "</span>" +
+          '<p class="small text-secondary mb-0">' + study.overview + "</p>" +
         "</div>" +
         '<div class="study-status ' +
           (study.recruiting ? "recruiting" : "not-recruiting") +
           '" aria-label="' + statusText + '">' +
-          '<span aria-hidden="true">' + statusSymbol + "</span>" +
+          '<i class="bi ' + statusIcon + ' fs-4" aria-hidden="true"></i>' +
           "<small>" + statusText + "</small>" +
         "</div>" +
-        '<button class="details-button" type="button">Details</button>' +
+        '<button class="details-button btn btn-outline-secondary btn-sm" type="button">Details</button>' +
         '<div class="study-details" hidden>' +
-          "<h4>Study details</h4>" +
+          "<h4 class=\"h6\">Study details</h4>" +
           "<p>" + study.details + "</p>" +
-          '<button class="close-details-button" type="button">Back to list</button>' +
+          '<button class="close-details-button btn btn-sm btn-secondary" type="button">Back to list</button>' +
         "</div>";
 
       studyList.appendChild(studyItem);

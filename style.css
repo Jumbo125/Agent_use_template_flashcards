@@ -1,238 +1,143 @@
+/* Custom overrides layered on top of Bootstrap to match the clinical,
+   medical-professional look described in SPEC.md. */
+
 :root {
   --ink: #263248;
   --background: #eef2f7;
-  --card: #ffffff;
-  --border: #9da9ba;
-  --ced: #bce8c0;
-  --liver: #b9d5f5;
-  --esophagus: #f2c0c0;
-}
-
-* {
-  box-sizing: border-box;
+  --ced: #2f9e52;
+  --ced-bg: #e3f6e8;
+  --liver: #2f6fed;
+  --liver-bg: #e6edfc;
+  --esophagus: #d6453d;
+  --esophagus-bg: #fbe7e5;
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
   color: var(--ink);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .page {
-  width: min(920px, 92%);
-  margin: 0 auto;
-  padding: 48px 0;
+  min-height: 100vh;
 }
 
 .finder-card {
-  padding: clamp(24px, 5vw, 48px);
-  background: var(--card);
-  border: 1px solid #dfe5ec;
   border-radius: 18px;
-  box-shadow: 0 10px 30px rgb(38 50 72 / 8%);
 }
 
 h1 {
-  margin: 0 0 16px;
-  font-size: clamp(2.2rem, 7vw, 4rem);
-  line-height: 1;
-}
-
-.intro {
-  max-width: 700px;
-  margin: 0 0 36px;
-  color: #536174;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-h2 {
-  margin: 0 0 18px;
-  color: #32578a;
-  font-size: 1.7rem;
-}
-
-.category-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.category-button {
-  min-height: 90px;
   color: var(--ink);
-  border: 3px solid var(--border);
-  border-radius: 8px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.2rem, 4vw, 1.7rem);
-  cursor: pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease;
-}
-
-.category-button.ced {
-  background: var(--ced);
-}
-
-.category-button.liver {
-  background: var(--liver);
-}
-
-.category-button.esophagus {
-  background: var(--esophagus);
-}
-
-.category-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 7px 14px rgb(38 50 72 / 14%);
-}
-
-.category-button.selected {
-  border-color: var(--ink);
-  box-shadow: 0 0 0 4px rgb(38 50 72 / 12%);
-  transform: translateY(-3px);
 }
 
 .category-result {
   min-height: 24px;
-  margin: 20px 0 0;
+  margin-top: 20px;
   color: #536174;
-  font-weight: bold;
 }
 
-.study-list {
-  display: grid;
-  gap: 14px;
-  margin-top: 24px;
-}
-
-.study-item {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+/* Category buttons: green/blue/red accents matching the sketch. */
+.category-button {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 18px 20px;
-  background: #f9fafc;
-  border: 2px solid #d9e0ea;
+  justify-content: center;
+  min-height: 90px;
+  border-width: 2px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.category-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgb(38 50 72 / 12%);
+}
+
+.category-button.selected {
+  box-shadow: 0 0 0 4px rgb(38 50 72 / 12%);
+  transform: translateY(-2px);
+}
+
+.category-button.ced {
+  color: var(--ced);
+  background: var(--ced-bg);
+  border-color: var(--ced);
+}
+
+.category-button.liver {
+  color: var(--liver);
+  background: var(--liver-bg);
+  border-color: var(--liver);
+}
+
+.category-button.esophagus {
+  color: var(--esophagus);
+  background: var(--esophagus-bg);
+  border-color: var(--esophagus);
+}
+
+/* Study list: compact rows with title, overview and a details action. */
+.study-list {
+  margin-top: 24px;
   border-radius: 10px;
 }
 
-.study-main h3 {
-  margin: 0 0 5px;
-  color: #263248;
-  font-size: 1.25rem;
+.study-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
 }
 
-.study-main p {
-  margin: 4px 0 0;
-  color: #536174;
+.study-main {
+  flex: 1 1 260px;
 }
 
 .study-main .study-category {
-  display: inline-block;
-  margin: 0 0 5px;
-  padding: 3px 8px;
-  color: #32578a;
-  background: #e7eef8;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: bold;
+  color: var(--liver);
+  background: var(--liver-bg);
+  font-weight: 600;
+  font-size: 0.8rem;
 }
 
 .study-status {
-  display: grid;
-  justify-items: center;
-  min-width: 104px;
-  color: #263248;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 96px;
   text-align: center;
 }
 
-.study-status span {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  font-size: 1.35rem;
-  font-weight: bold;
-}
-
 .study-status small {
-  margin-top: 6px;
-  font-weight: bold;
+  margin-top: 2px;
+  font-weight: 600;
 }
 
 .study-status.recruiting {
-  color: #357a3e;
+  color: var(--ced);
 }
 
 .study-status.not-recruiting {
-  color: #b64b43;
-}
-
-.details-button,
-.close-details-button {
-  padding: 9px 14px;
-  color: #263248;
-  background: #ffffff;
-  border: 2px solid #263248;
-  border-radius: 7px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.details-button {
-  position: absolute;
-  right: 20px;
-  bottom: 18px;
+  color: var(--esophagus);
 }
 
 .study-details {
-  grid-column: 1 / -1;
-  padding: 16px;
-  background: #eef4fb;
-  border-left: 4px solid #32578a;
+  flex: 1 1 100%;
+  padding: 14px 16px;
+  background: var(--liver-bg);
+  border-left: 4px solid var(--liver);
   border-radius: 6px;
 }
 
 .study-details h4 {
-  margin: 0 0 8px;
-  color: #32578a;
+  color: var(--liver);
 }
 
-.study-details p {
-  margin: 0 0 14px;
-  color: #536174;
-  line-height: 1.5;
-}
-
-@media (max-width: 600px) {
-  .page {
-    width: min(92%, 920px);
-    padding: 24px 0;
-  }
-
-  .category-list {
-    grid-template-columns: 1fr;
-  }
-
-  .category-button {
-    min-height: 72px;
-  }
-
-  .study-item {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 575.98px) {
   .study-status {
-    justify-items: start;
-  }
-
-  .details-button {
-    position: static;
-    justify-self: start;
+    align-items: flex-start;
+    min-width: auto;
   }
 }
