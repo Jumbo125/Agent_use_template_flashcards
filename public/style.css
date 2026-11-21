@@ -4,3 +4,8 @@
   max-height: 300px;
   overflow-y: auto;
 }
+
+.header-image {
+  width: 160px;
+  height: auto;
+}

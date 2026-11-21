@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 140" width="220" height="140" role="img" aria-labelledby="headerImageTitle">
+  <title id="headerImageTitle">Smartphone zeigt ein kurzes Anleitungsvideo</title>
+
+  <!-- Smartphone-Gehäuse -->
+  <rect x="70" y="10" width="80" height="120" rx="14" fill="#212529" />
+  <rect x="78" y="22" width="64" height="96" rx="4" fill="#ffffff" />
+
+  <!-- Play-Button auf dem Bildschirm -->
+  <circle cx="110" cy="70" r="24" fill="#0d6efd" />
+  <polygon points="103,58 103,82 124,70" fill="#ffffff" />
+
+  <!-- Lautsprecher/Kamera oben am Gehäuse -->
+  <rect x="100" y="16" width="20" height="3" rx="1.5" fill="#495057" />
+
+  <!-- Herzschlag-Linie als Hinweis auf Intensivstation -->
+  <polyline
+    points="10,120 40,120 48,100 56,130 64,105 72,120 95,120"
+    fill="none"
+    stroke="#dc3545"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- kleine Wellen/Signal-Symbole, Anspielung auf QR-/Scan-Idee -->
+  <path d="M160 40 a26 26 0 0 1 0 60" fill="none" stroke="#6c757d" stroke-width="3" stroke-linecap="round" />
+  <path d="M172 50 a14 14 0 0 1 0 40" fill="none" stroke="#6c757d" stroke-width="3" stroke-linecap="round" />
+</svg>
