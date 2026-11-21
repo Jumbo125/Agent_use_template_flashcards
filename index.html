@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D&amp;D Begegnungs-Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <h1>D&amp;D Begegnungs-Generator</h1>
+
+    <div class="generator-layout">
+      <section class="panel input-panel">
+        <h2>Eingabe</h2>
+        <form id="encounter-form">
+          <label for="player-count">Anzahl Spieler</label>
+          <input id="player-count" type="number" min="1" max="12" value="4" required>
+
+          <label for="group-level">Stufe der Gruppe</label>
+          <input id="group-level" type="number" min="1" max="20" value="3" required>
+
+          <label for="difficulty">Schwierigkeit</label>
+          <select id="difficulty">
+            <option value="easy">Leicht</option>
+            <option value="medium" selected>Mittel</option>
+            <option value="hard">Schwer</option>
+            <option value="deadly">Tödlich</option>
+          </select>
+
+          <fieldset>
+            <legend>Umgebung</legend>
+            <label class="checkbox-label">
+              <input type="checkbox" name="environment" value="Wald" checked>
+              Wald
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="environment" value="Berge">
+              Berge
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="environment" value="Dungeon">
+              Dungeon
+            </label>
+          </fieldset>
+
+          <button id="generate-button" type="submit" disabled>
+            Monsterdaten werden geladen …
+          </button>
+        </form>
+      </section>
+
+      <section class="panel result-panel" aria-live="polite">
+        <h2>Vorschlag</h2>
+        <div id="result-placeholder" class="message">
+          Wähle deine Einstellungen und erstelle eine Begegnung.
+        </div>
+
+        <div id="encounter-result" hidden>
+          <p id="budget-text" class="budget-text"></p>
+          <div class="budget-bar" aria-hidden="true">
+            <div id="budget-fill" class="budget-fill"></div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Gegner</th>
+                  <th>Anzahl</th>
+                  <th>CR</th>
+                  <th>XP-Anteil</th>
+                </tr>
+              </thead>
+              <tbody id="encounter-table"></tbody>
+            </table>
+          </div>
+
+          <p id="total-text" class="total-text"></p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

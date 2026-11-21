@@ -1,0 +1,21 @@
+name,cr,xp,typ,umgebung
+Ratte,0,10,Tier,Dungeon
+Fledermaus,0,10,Tier,Wald;Dungeon
+Riesige Ratte,1/8,25,Tier,Dungeon
+Kobold,1/8,25,Humanoid,Berge;Dungeon
+Goblin,1/4,50,Humanoid,Wald;Berge;Dungeon
+Skelett,1/4,50,Untoter,Dungeon
+Wolf,1/4,50,Tier,Wald;Berge
+Riesiger Wolf,1,200,Tier,Wald;Berge
+Harpyie,1,200,Monstrosität,Berge
+Ghoul,1,200,Untoter,Dungeon
+Oger,2,450,Riese,Wald;Berge;Dungeon
+Mimic,2,450,Monstrosität,Dungeon
+Minotaurus,3,700,Monstrosität,Dungeon
+Eulenbär,3,700,Monstrosität,Wald
+Troll,5,1800,Riese,Wald;Berge;Dungeon
+Steinriese,7,2900,Riese,Berge
+Junger grüner Drache,8,3900,Drache,Wald
+Frostriese,8,3900,Riese,Berge
+Behir,11,7200,Monstrosität,Berge;Dungeon
+Purpurwurm,15,13000,Monstrosität,Dungeon
