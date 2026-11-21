@@ -35,6 +35,11 @@ h1 {
   color: #536174;
 }
 
+.navigation-actions {
+  min-height: 32px;
+  margin-top: 8px;
+}
+
 /* Category buttons: green/blue/red accents matching the sketch. */
 .category-button {
   display: flex;

@@ -17,6 +17,8 @@
 - Styled the interface in `style.css` as a clean, medical-professional layout.
 - Added responsive behavior for desktop and mobile screens.
 - Verified that `script.js` has valid JavaScript syntax.
+- Implemented the navigation from category selection to study list and details.
+- Added a `Back to categories` action for returning to category selection.
 
 ## Next
 
