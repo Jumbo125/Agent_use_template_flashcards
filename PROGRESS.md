@@ -17,6 +17,10 @@
 - Styled the interface in `style.css` as a clean, medical-professional layout.
 - Added responsive behavior for desktop and mobile screens.
 - Verified that `script.js` has valid JavaScript syntax.
+- Moved all sample studies into `studies.json`.
+- Implemented loading of the study data from JSON.
+- Kept the expandable details view and return-to-list interaction.
+- Confirmed Bootstrap CSS and icons are used in the interface.
 
 ## Next
 
@@ -32,7 +36,7 @@
 - Recruiting status should be clearly represented with a check mark or cross.
 - Study details should open from each study row and allow return to the list.
 - The implementation uses plain HTML, CSS and JavaScript.
-- No Bootstrap integration was present in the inspected files.
+- Bootstrap CSS and Bootstrap Icons are loaded in `index.html`.
 - The category, study-list and details styling follows the existing light, professional visual design.
 
 ## Known problems
