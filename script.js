@@ -2,11 +2,12 @@
 const categoryButtons = document.querySelectorAll(".category-button");
 const categoryResult = document.querySelector("#categoryResult");
 const studyList = document.querySelector("#studyList");
+const backToCategories = document.querySelector("#backToCategories");
 let studies = [];
 
 // Load all studies from the JSON data file.
 function loadStudies() {
-  fetch("studies.json")
+  return fetch("studies.json")
     .then(function (response) {
       if (!response.ok) {
         throw new Error("The studies.json file could not be loaded.");
@@ -86,8 +87,22 @@ categoryButtons.forEach(function (button) {
     button.classList.add("selected");
     categoryResult.textContent =
       "Selected category: " + button.dataset.category;
-    showStudies(button.dataset.category);
+    backToCategories.hidden = false;
+    studiesLoaded.then(function () {
+      showStudies(button.dataset.category);
+    });
   });
 });
 
-loadStudies();
+// Return from the study list to the category selection.
+backToCategories.addEventListener("click", function () {
+  categoryButtons.forEach(function (categoryButton) {
+    categoryButton.classList.remove("selected");
+  });
+
+  studyList.innerHTML = "";
+  categoryResult.textContent = "Please select a category.";
+  backToCategories.hidden = true;
+});
+
+const studiesLoaded = loadStudies();
