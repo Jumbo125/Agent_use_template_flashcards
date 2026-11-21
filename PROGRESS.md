@@ -5,16 +5,24 @@
 - Added and finalized the `SPEC.md` for the Clinical Study Finder.
 - Captured categories, study fields, recruiting status, details behavior and visual direction.
 - Defined acceptance criteria and explicitly listed out-of-scope features.
+- Created the page structure in `index.html`.
+- Added CED, Liver and Esophagus category controls.
+- Added a selected state for the active category.
+- Created a small sample dataset with two studies per category.
+- Implemented category filtering so the matching studies appear after selection.
+- Added a check mark for recruiting and a cross for not recruiting studies.
+- Added study titles, categories and short descriptions to each result.
+- Added expandable study details with a `Details` button.
+- Added a `Back to list` action to close the details.
+- Styled the interface in `style.css` as a clean, medical-professional layout.
+- Added responsive behavior for desktop and mobile screens.
+- Verified that `script.js` has valid JavaScript syntax.
 
 ## Next
 
-- Build the page structure in `index.html`.
-- Add the CED, Liver and Esophagus category controls.
-- Create a small sample dataset for studies.
-- Implement category filtering and recruiting status indicators in `script.js`.
-- Add the study details interaction.
-- Style the interface with a clean, medical-professional look in `style.css`.
 - Verify desktop and mobile behavior.
+- Test the complete category -> list -> details flow in the browser.
+- Replace sample study content with final study data when available.
 
 ## Decisions & notes
 
@@ -23,8 +31,10 @@
 - Supported categories for the first version: CED, Liver and Esophagus.
 - Recruiting status should be clearly represented with a check mark or cross.
 - Study details should open from each study row and allow return to the list.
+- The implementation uses plain HTML, CSS and JavaScript.
+- No Bootstrap integration was present in the inspected files.
+- The category, study-list and details styling follows the existing light, professional visual design.
 
 ## Known problems
 
-- The existing implementation still appears to be based on the previous vocabulary-flashcards template.
 - No final sample study content or recruitment-status data is specified in the source brief.
