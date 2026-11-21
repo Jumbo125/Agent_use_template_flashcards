@@ -2,7 +2,9 @@
 
 ## Project
 
-Beginner project. Read SPEC.md for what to build. Never edit SPEC.md.
+<!-- Beginner project. Read SPEC.md for what to build. Never edit SPEC.md. -->
+
+Never edit SPEC.md
 
 ## Technology
 
