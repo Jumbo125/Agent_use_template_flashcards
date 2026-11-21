@@ -117,6 +117,19 @@ app.get("/api/entries/search", (req, res) => {
   res.json(matches);
 });
 
+// Gibt einen einzelnen Eintrag anhand seiner ID zurück (für die Detailseite).
+app.get("/api/entries/:id", (req, res) => {
+  const entries = readEntries();
+  const entry = entries.find((e) => e.id === req.params.id);
+
+  if (!entry) {
+    res.status(404).json({ error: "Eintrag nicht gefunden." });
+    return;
+  }
+
+  res.json(entry);
+});
+
 // Legt einen neuen Eintrag an (nur für eingeloggte User).
 app.post(
   "/api/entries",
