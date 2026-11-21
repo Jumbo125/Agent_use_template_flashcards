@@ -51,6 +51,8 @@ Build a simple website for principal investigators, sub-investigators and physic
 
    8. **Server mittels Node.js + Express**
    
+   9. **Save in directory**
+   - Ändere die Pfade bitte um. Es wäre super wenn die Json aufgetielt sind. User/ *.json, Studies/ *.json
 
 ## Acceptance criteria (how I know a feature works)
 
