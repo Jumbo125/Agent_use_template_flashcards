@@ -11,11 +11,13 @@
   atomarem Schreiben in data/entries.json) + Formular im Frontend, nur sichtbar für eingeloggte User
 - Feature 3 "Suche": Endpunkt `GET /api/entries/search?q=...` (ab 4 Zeichen) + Such-Bereich im Accordion
   mit scrollbarer Trefferliste; Treffer-Titel verlinkt auf `/entry.html?id=...` (Detailseite folgt),
-  roter Edit-Button nur für eingeloggte User sichtbar 
+  roter Edit-Button nur für eingeloggte User sichtbar
+- Feature 4 "Detailseite": Endpunkt `GET /api/entries/:id` + eigene Seite `public/entry.html` mit
+  eigener URL, zeigt Video, Beschreibung, Autor, Anhänge-Liste und QR-Code (QRCode.js) zu dieser Seite;
+  roter Bearbeiten-Button nur sichtbar, wenn eine Session besteht
 
 ## Next
 
-- Feature 4: Detailseite (entry.html) mit Video, Beschreibung, Anhängen und QR-Code
 - Feature 5: QR-Code-Anzeige direkt nach dem Speichern eines neuen Eintrags
 - Feature 6: User-Infos (Username, Name, Passwort ändern, Login-Zeitstempel)
 - Feature 7: Feedback-Formular
@@ -27,5 +29,5 @@
 
 ## Known problems
 
-- Edit-Button in der Suche verlinkt bereits auf `/entry.html?id=...&edit=1`, diese Seite existiert
-  noch nicht (kommt mit Feature 4)
+- Bearbeiten-Button auf der Detailseite zeigt nur einen Platzhalter-Hinweis ("folgt in einem
+  späteren Schritt"); ein echtes Bearbeiten-Formular/Endpunkt existiert noch nicht
