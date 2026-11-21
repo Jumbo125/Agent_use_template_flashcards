@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinical Study Finder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <section class="finder-card">
+      <h1>Clinical Study Finder</h1>
+      <p class="intro">
+        A simple website for principal investigators, sub-investigators
+        and physicians to find clinical studies in gastroenterology.
+      </p>
+
+      <h2>Select a category</h2>
+      <div class="category-list" aria-label="Study categories">
+        <button class="category-button ced" type="button" data-category="CED">
+          CED
+        </button>
+        <button class="category-button liver" type="button" data-category="Liver">
+          Liver
+        </button>
+        <button class="category-button esophagus" type="button" data-category="Esophagus">
+          Esophagus
+        </button>
+      </div>
+      <p class="category-result" id="categoryResult" aria-live="polite">
+        Please select a category.
+      </p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

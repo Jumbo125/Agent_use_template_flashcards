@@ -82,3 +82,4 @@ Build a simple website for principal investigators, sub-investigators and physic
 - Study entries appear as compact rows with title, short overview and a "Details" action.
 - Recruiting status is easy to recognize using a check mark or cross.
 - Use restrained spacing, clear typography and a neutral/light background.
+- use bootsstrap.css, js, icons
