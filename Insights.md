@@ -15,3 +15,4 @@
 - Ich habe gelernt, Monster zufällig auszuwählen und gleiche Monster für die Ausgabe in einer Tabellenzeile zusammenzufassen.
 - Ich habe gelernt, den Inhalt einer Webseite dynamisch zu verändern und verständliche Fehlermeldungen anzuzeigen.
 - Ich habe gelernt, mit CSS Grid ein zweispaltiges Layout zu erstellen, das auf kleinen Bildschirmen einspaltig wird.
+GitHub desktop ist ein sch***
