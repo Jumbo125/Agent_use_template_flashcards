@@ -76,16 +76,25 @@ function requireLogin(req, res, next) {
   next();
 }
 
-// Speichert hochgeladene Dateien im uploads-Ordner mit eindeutigem Dateinamen.
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: UPLOADS_DIR,
-    filename: (req, file, callback) => {
-      const uniqueName = Date.now() + "-" + file.originalname;
-      callback(null, uniqueName);
-    },
-  }),
-});
+// Nimmt hochgeladene Dateien zunächst im Arbeitsspeicher entgegen (statt sie
+// direkt auf die Festplatte zu schreiben), damit wir sie selbst atomar
+// speichern können (siehe saveFileAtomic).
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Speichert eine hochgeladene Datei atomar im uploads-Ordner: erst unter einem
+// Temp-Namen schreiben, dann umbenennen. So liegt nie eine unvollständige
+// Datei unter ihrem endgültigen Namen, falls der Server währenddessen abstürzt.
+// Gibt den Web-Pfad zurück, unter dem die Datei danach erreichbar ist.
+function saveFileAtomic(file) {
+  const uniqueName = Date.now() + "-" + file.originalname;
+  const finalPath = path.join(UPLOADS_DIR, uniqueName);
+  const tempPath = finalPath + ".tmp";
+
+  fs.writeFileSync(tempPath, file.buffer);
+  fs.renameSync(tempPath, finalPath);
+
+  return "/uploads/" + uniqueName;
+}
 
 // Wandelt ein Passwort in seinen SHA-256-Hash (als Hex-Text) um.
 function hashPassword(password) {
@@ -218,8 +227,8 @@ app.post(
       title,
       description,
       author: req.session.name,
-      videoPath: "/uploads/" + videoFile.filename,
-      attachments: attachmentFiles.map((file) => "/uploads/" + file.filename),
+      videoPath: saveFileAtomic(videoFile),
+      attachments: attachmentFiles.map((file) => saveFileAtomic(file)),
       createdAt: new Date().toISOString(),
     };
 

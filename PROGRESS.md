@@ -32,6 +32,11 @@
   Nachricht) + atomares Schreiben in neue Datei `data/feedback.json`; echtes Formular im
   bestehenden Feedback-Accordion-Bereich ersetzt den Platzhaltertext, zeigt nach dem Absenden
   eine Erfolgsmeldung und setzt das Formular zurück
+- Feature 9 "Speichern": Einträge und Benutzer wurden schon atomar geschrieben (Temp-Datei +
+  Umbenennen); jetzt gilt das auch für hochgeladene Medien (Video/Anhänge). Dafür nimmt `multer`
+  die Datei nun per `memoryStorage` entgegen, und die neue Funktion `saveFileAtomic` schreibt sie
+  erst unter einem Temp-Namen in `uploads/`, bevor sie auf den endgültigen Dateinamen umbenannt
+  wird – so entsteht nie eine unvollständige Datei unter ihrem finalen Namen
 
 ## Next
 
