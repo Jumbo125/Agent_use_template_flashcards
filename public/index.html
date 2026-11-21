@@ -140,7 +140,19 @@
         </h2>
         <div class="accordion-collapse collapse" id="feedbackCollapse" data-bs-parent="#mainAccordion">
           <div class="accordion-body">
-            <p class="text-muted">Feedback-Formular folgt in einem späteren Schritt.</p>
+            <form id="feedbackForm">
+              <div class="mb-3">
+                <label for="feedbackName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="feedbackName" required />
+              </div>
+              <div class="mb-3">
+                <label for="feedbackMessage" class="form-label">Nachricht</label>
+                <textarea class="form-control" id="feedbackMessage" rows="4" required></textarea>
+              </div>
+              <div id="feedbackError" class="text-danger small mb-2"></div>
+              <div id="feedbackSuccess" class="text-success small mb-2"></div>
+              <button type="submit" class="btn btn-success">Absenden</button>
+            </form>
           </div>
         </div>
       </div>

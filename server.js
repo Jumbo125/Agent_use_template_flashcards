@@ -10,6 +10,7 @@ const app = express();
 const PORT = 8051;
 const USERS_FILE = path.join(__dirname, "data", "users.json");
 const ENTRIES_FILE = path.join(__dirname, "data", "entries.json");
+const FEEDBACK_FILE = path.join(__dirname, "data", "feedback.json");
 const UPLOADS_DIR = path.join(__dirname, "uploads");
 const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -51,6 +52,19 @@ function writeUsersAtomic(users) {
   const tempFile = USERS_FILE + ".tmp";
   fs.writeFileSync(tempFile, JSON.stringify(users, null, 2));
   fs.renameSync(tempFile, USERS_FILE);
+}
+
+// Liest die Liste der Feedback-Einträge aus der feedback.json-Datei.
+function readFeedback() {
+  const content = fs.readFileSync(FEEDBACK_FILE, "utf8");
+  return JSON.parse(content);
+}
+
+// Schreibt die Feedback-Liste atomar: erst in eine Temp-Datei, dann umbenennen.
+function writeFeedbackAtomic(feedbackList) {
+  const tempFile = FEEDBACK_FILE + ".tmp";
+  fs.writeFileSync(tempFile, JSON.stringify(feedbackList, null, 2));
+  fs.renameSync(tempFile, FEEDBACK_FILE);
 }
 
 // Lässt nur eingeloggte User weitermachen, sonst Fehler 401.
@@ -216,6 +230,29 @@ app.post(
     res.json(entry);
   }
 );
+
+// Speichert ein Feedback (Name und Nachricht), auch ohne Login nutzbar.
+app.post("/api/feedback", (req, res) => {
+  const { name, message } = req.body;
+
+  if (!name || !message) {
+    res.status(400).json({ error: "Name und Nachricht sind Pflichtfelder." });
+    return;
+  }
+
+  const feedbackEntry = {
+    id: crypto.randomUUID(),
+    name,
+    message,
+    createdAt: new Date().toISOString(),
+  };
+
+  const feedbackList = readFeedback();
+  feedbackList.push(feedbackEntry);
+  writeFeedbackAtomic(feedbackList);
+
+  res.json(feedbackEntry);
+});
 
 app.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);

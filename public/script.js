@@ -231,8 +231,37 @@ function renderSearchResults(entries) {
   }
 }
 
+// Schickt Name und Nachricht des Feedback-Formulars an den Server.
+async function handleFeedbackSubmit(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("feedbackName").value;
+  const message = document.getElementById("feedbackMessage").value;
+  const errorBox = document.getElementById("feedbackError");
+  const successBox = document.getElementById("feedbackSuccess");
+
+  const response = await fetch("/api/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, message }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    successBox.textContent = "";
+    errorBox.textContent = data.error;
+    return;
+  }
+
+  errorBox.textContent = "";
+  successBox.textContent = "Danke für dein Feedback!";
+  document.getElementById("feedbackForm").reset();
+}
+
 document.getElementById("loginForm").addEventListener("submit", handleLoginSubmit);
 document.getElementById("addEntryForm").addEventListener("submit", handleAddEntrySubmit);
 document.getElementById("searchForm").addEventListener("submit", handleSearchSubmit);
 document.getElementById("userInfoForm").addEventListener("submit", handleUserInfoSubmit);
+document.getElementById("feedbackForm").addEventListener("submit", handleFeedbackSubmit);
 checkExistingSession();
