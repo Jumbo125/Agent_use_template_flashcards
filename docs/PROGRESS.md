@@ -1,5 +1,13 @@
 # Progress
 
+## Historical path note
+
+The entries below preserve the paths used at the time each change was made.
+Paths such as the root-level `index.html`, `style.css`, `script.js`,
+`server.js`, `User/`, and `Studies/` refer to the layout before the
+reorganization; they are historical, not the current locations. See
+`../PROJECT_STRUCTURE.md` for the current project structure.
+
 ## Done
 
 - Added and finalized the `SPEC.md` for the Clinical Study Finder.
