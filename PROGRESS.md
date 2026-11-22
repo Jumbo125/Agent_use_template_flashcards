@@ -36,6 +36,8 @@
   - User JSON files under `User/*.json`.
   - Study JSON files under `Studies/*.json`.
 - Updated login and study API handling to read and write the split JSON directories.
+- Made server-side JSON writes atomic by writing to a temporary file before replacing the target file.
+- Updated study renames to save the new file before removing the old one.
 
 ## Next
 

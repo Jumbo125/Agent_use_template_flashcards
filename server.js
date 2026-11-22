@@ -72,8 +72,22 @@ function readJsonDirectory(directoryPath) {
 
 // Write one JavaScript value as a formatted JSON file.
 function writeJsonFile(filePath, value) {
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.writeFileSync(filePath, JSON.stringify(value, null, 2), "utf8");
+  const directoryPath = path.dirname(filePath);
+  const temporaryPath = path.join(
+    directoryPath,
+    "." + crypto.randomBytes(8).toString("hex") + ".tmp"
+  );
+
+  fs.mkdirSync(directoryPath, { recursive: true });
+  try {
+    fs.writeFileSync(temporaryPath, JSON.stringify(value, null, 2), "utf8");
+    fs.renameSync(temporaryPath, filePath);
+  } catch (error) {
+    if (fs.existsSync(temporaryPath)) {
+      fs.unlinkSync(temporaryPath);
+    }
+    throw error;
+  }
 }
 
 // Return the sorted JSON file paths used for study indexes.
@@ -181,11 +195,10 @@ app.put("/api/studies/:index", function (request, response) {
   const newFileName = makeFileName(request.body.title) + ".json";
   const newFilePath = path.join(studiesDirectory, newFileName);
 
+  writeJsonFile(newFilePath, request.body);
   if (oldFilePath !== newFilePath) {
     fs.rmSync(oldFilePath);
   }
-
-  writeJsonFile(newFilePath, request.body);
   response.json(request.body);
 });
 
