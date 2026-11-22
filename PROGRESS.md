@@ -20,7 +20,7 @@
 - Implemented the navigation from category selection to study list and details.
 - Added a `Back to categories` action for returning to category selection.
 - Added a login modal with username and password fields.
-- Added `users.json` for login credentials without a database.
+- Added per-user JSON credential storage under `User/`.
 - Implemented SHA-256 password hashing in the browser.
 - Added login success, invalid-login feedback and logout behavior.
 - Added a study administration area for logged-in users.
@@ -38,6 +38,8 @@
 - Updated login and study API handling to read and write the split JSON directories.
 - Made server-side JSON writes atomic by writing to a temporary file before replacing the target file.
 - Updated study renames to save the new file before removing the old one.
+- Added an admin-only user panel and API to change the admin username and password.
+- Protected user credential JSON files from static web access.
 
 ## Next
 

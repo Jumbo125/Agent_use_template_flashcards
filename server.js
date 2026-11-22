@@ -11,6 +11,9 @@ const studiesDirectory = path.join(projectDirectory, "Studies");
 const sessions = new Map();
 
 app.use(express.json());
+app.use("/User", function (request, response) {
+  response.sendStatus(404);
+});
 app.use(express.static(projectDirectory));
 
 // Create a simple, safe file name from a title or name.
@@ -132,9 +135,33 @@ function getStudyFilePaths() {
 
 // Check whether the request contains a valid login token.
 function isLoggedIn(request) {
+  return getSession(request) !== undefined;
+}
+
+// Find the current session from the bearer token.
+function getSession(request) {
   const authorization = request.headers.authorization || "";
-  const token = authorization.replace("Bearer ", "");
-  return sessions.has(token);
+  const token = authorization.replace(/^Bearer\s+/, "");
+  return sessions.get(token);
+}
+
+// Find the JSON file that stores one user account.
+function findUserFile(username) {
+  const fileNames = fs.readdirSync(usersDirectory)
+    .filter(function (fileName) {
+      return fileName.endsWith(".json");
+    });
+
+  for (let index = 0; index < fileNames.length; index++) {
+    const filePath = path.join(usersDirectory, fileNames[index]);
+    const user = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+    if (user.username === username) {
+      return filePath;
+    }
+  }
+
+  return null;
 }
 
 // Validate a login against the users JSON file.
@@ -153,8 +180,95 @@ app.post("/api/login", function (request, response) {
   }
 
   const token = crypto.randomBytes(24).toString("hex");
-  sessions.set(token, matchingUser.username);
-  response.json({ token: token, username: matchingUser.username });
+  const role = matchingUser.role ||
+    (matchingUser.username === "admin" ? "admin" : "user");
+  sessions.set(token, { username: matchingUser.username, role: role });
+  response.json({
+    token: token,
+    username: matchingUser.username,
+    role: role
+  });
+});
+
+// Return the current admin account name to an authenticated admin.
+app.get("/api/admin/account", function (request, response) {
+  const session = getSession(request);
+
+  if (session === undefined || session.role !== "admin") {
+    response.status(session === undefined ? 401 : 403)
+      .json({ message: "Admin access required." });
+    return;
+  }
+
+  response.json({ username: session.username });
+});
+
+// Update the admin account name and optionally its password hash.
+app.put("/api/admin/account", function (request, response) {
+  const session = getSession(request);
+
+  if (session === undefined || session.role !== "admin") {
+    response.status(session === undefined ? 401 : 403)
+      .json({ message: "Admin access required." });
+    return;
+  }
+
+  const body = request.body || {};
+  const username = typeof body.username === "string"
+    ? body.username.trim()
+    : "";
+  const passwordHash = body.passwordSha256;
+
+  if (username === "") {
+    response.status(400).json({ message: "Username is required." });
+    return;
+  }
+
+  if (passwordHash !== undefined && passwordHash !== "" &&
+      !/^[a-f0-9]{64}$/i.test(passwordHash)) {
+    response.status(400).json({ message: "Invalid password hash." });
+    return;
+  }
+
+  const users = readJsonDirectory(usersDirectory);
+  const duplicateUser = users.find(function (user) {
+    return user.username === username && user.username !== session.username;
+  });
+
+  if (duplicateUser !== undefined) {
+    response.status(409).json({ message: "That username is already in use." });
+    return;
+  }
+
+  const oldFilePath = findUserFile(session.username);
+  if (oldFilePath === null) {
+    response.status(404).json({ message: "Admin account not found." });
+    return;
+  }
+
+  const newFilePath = path.join(
+    usersDirectory,
+    makeFileName(username) + ".json"
+  );
+  if (oldFilePath !== newFilePath && fs.existsSync(newFilePath)) {
+    response.status(409).json({ message: "That user file already exists." });
+    return;
+  }
+
+  const oldUser = JSON.parse(fs.readFileSync(oldFilePath, "utf8"));
+  const updatedUser = {
+    username: username,
+    passwordSha256: passwordHash || oldUser.passwordSha256,
+    role: "admin"
+  };
+
+  writeJsonFile(newFilePath, updatedUser);
+  if (oldFilePath !== newFilePath) {
+    fs.rmSync(oldFilePath);
+  }
+
+  session.username = username;
+  response.json({ username: username });
 });
 
 // Return all studies.

@@ -7,6 +7,9 @@ const loginForm = document.querySelector("#loginForm");
 const loginMessage = document.querySelector("#loginMessage");
 const openLogin = document.querySelector("#openLogin");
 const studyAdminActions = document.querySelector("#studyAdminActions");
+const openUserPanelButton = document.querySelector("#openUserPanelButton");
+const userAccountForm = document.querySelector("#userAccountForm");
+const userAccountMessage = document.querySelector("#userAccountMessage");
 const addStudyButton = document.querySelector("#addStudyButton");
 const downloadStudiesButton = document.querySelector("#downloadStudiesButton");
 const studyForm = document.querySelector("#studyForm");
@@ -60,6 +63,7 @@ loginForm.addEventListener("submit", async function (event) {
       authToken = loginData.token;
       loggedIn = true;
       sessionStorage.setItem("loggedInUser", loginData.username);
+      sessionStorage.setItem("loggedInRole", loginData.role);
       sessionStorage.setItem("authToken", authToken);
       updateLoginButton();
       loginMessage.textContent = "";
@@ -78,11 +82,13 @@ loginForm.addEventListener("submit", async function (event) {
 // Update the Login button after login or logout.
 function updateLoginButton() {
   const loggedInUser = sessionStorage.getItem("loggedInUser");
+  const loggedInRole = sessionStorage.getItem("loggedInRole");
   authToken = sessionStorage.getItem("authToken") || "";
 
   if (loggedInUser !== null) {
     loggedIn = true;
     studyAdminActions.hidden = false;
+    openUserPanelButton.hidden = loggedInRole !== "admin";
     openLogin.innerHTML =
       '<i class="bi bi-person-check"></i> ' + loggedInUser + " (Logout)";
     openLogin.removeAttribute("data-bs-toggle");
@@ -90,6 +96,7 @@ function updateLoginButton() {
   } else {
     loggedIn = false;
     studyAdminActions.hidden = true;
+    openUserPanelButton.hidden = true;
     openLogin.innerHTML = '<i class="bi bi-person"></i> Login';
     openLogin.setAttribute("data-bs-toggle", "modal");
     openLogin.setAttribute("data-bs-target", "#loginModal");
@@ -105,10 +112,81 @@ function updateLoginButton() {
 openLogin.addEventListener("click", function () {
   if (loggedIn) {
     sessionStorage.removeItem("loggedInUser");
+    sessionStorage.removeItem("loggedInRole");
     sessionStorage.removeItem("authToken");
     authToken = "";
     updateLoginButton();
   }
+});
+
+// Open the account settings for the logged-in admin.
+openUserPanelButton.addEventListener("click", function () {
+  userAccountForm.reset();
+  userAccountMessage.textContent = "";
+  document.querySelector("#accountUsername").value =
+    sessionStorage.getItem("loggedInUser") || "";
+
+  const accountModal = new bootstrap.Modal(
+    document.querySelector("#userAccountModal")
+  );
+  accountModal.show();
+});
+
+// Save the account name and optional password hash on the server.
+function saveAdminAccount(username, passwordHash) {
+  const accountChanges = { username: username };
+  if (passwordHash !== "") {
+    accountChanges.passwordSha256 = passwordHash;
+  }
+
+  return fetch("/api/admin/account", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + authToken
+    },
+    body: JSON.stringify(accountChanges)
+  })
+    .then(function (response) {
+      return response.json().then(function (result) {
+        if (!response.ok) {
+          throw new Error(result.message || "The account could not be saved.");
+        }
+        return result;
+      });
+    });
+}
+
+// Check the new password and submit the account changes.
+userAccountForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  const username = document.querySelector("#accountUsername").value.trim();
+  const password = document.querySelector("#accountPassword").value;
+  const passwordConfirm =
+    document.querySelector("#accountPasswordConfirm").value;
+
+  if (password !== passwordConfirm) {
+    userAccountMessage.textContent = "The passwords do not match.";
+    return;
+  }
+
+  const passwordHash = password === "" ? "" : await hashPassword(password);
+  saveAdminAccount(username, passwordHash)
+    .then(function (updatedAccount) {
+      sessionStorage.setItem("loggedInUser", updatedAccount.username);
+      updateLoginButton();
+      userAccountMessage.textContent = "";
+      userAccountForm.reset();
+
+      const accountModal = bootstrap.Modal.getInstance(
+        document.querySelector("#userAccountModal")
+      );
+      accountModal.hide();
+    })
+    .catch(function (error) {
+      userAccountMessage.textContent = error.message;
+    });
 });
 
 // Load all studies from the JSON data file.

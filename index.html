@@ -32,6 +32,9 @@
           <button class="btn btn-outline-primary" id="downloadStudiesButton" type="button">
             <i class="bi bi-download"></i> Save studies as JSON
           </button>
+          <button class="btn btn-outline-secondary" id="openUserPanelButton" type="button" hidden>
+            <i class="bi bi-person-gear"></i> User panel
+          </button>
         </div>
 
         <h2 class="h5 text-uppercase text-primary fw-semibold mb-3">Select a category</h2>
@@ -129,6 +132,42 @@
           <div class="d-flex justify-content-end gap-2">
             <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
             <button class="btn btn-primary" type="submit">Save study</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="userAccountModal" tabindex="-1"
+    aria-labelledby="userAccountTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="userAccountTitle">Admin user panel</h2>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form class="modal-body" id="userAccountForm">
+          <div class="mb-3">
+            <label class="form-label" for="accountUsername">Username</label>
+            <input class="form-control" id="accountUsername" type="text" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="accountPassword">New password</label>
+            <input class="form-control" id="accountPassword" type="password"
+              autocomplete="new-password">
+            <div class="form-text">Leave blank to keep the current password.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="accountPasswordConfirm">Confirm new password</label>
+            <input class="form-control" id="accountPasswordConfirm" type="password"
+              autocomplete="new-password">
+          </div>
+          <p class="text-danger mb-0" id="userAccountMessage" aria-live="polite"></p>
+          <div class="d-flex justify-content-end gap-2 mt-3">
+            <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button class="btn btn-primary" type="submit">Save account</button>
           </div>
         </form>
       </div>
