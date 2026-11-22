@@ -40,6 +40,13 @@
 - Updated study renames to save the new file before removing the old one.
 - Added an admin-only user panel and API to change the admin username and password.
 - Protected user credential JSON files from static web access.
+- Organized the frontend under `public/`, the Express server under `server/`,
+  JSON data under `data/`, and project notes under `docs/`.
+- Updated Express static and data paths, frontend asset references, and the
+  `npm start` script for the new folders.
+- Kept user and study JSON contents unchanged during the move.
+- Restricted Express static serving to `public/` and explicitly blocked
+  `/data` and the old `/User` URL paths.
 
 ## Next
 

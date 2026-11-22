@@ -5,16 +5,20 @@ const path = require("path");
 
 const app = express();
 const port = 3000;
-const projectDirectory = __dirname;
-const usersDirectory = path.join(projectDirectory, "User");
-const studiesDirectory = path.join(projectDirectory, "Studies");
+const projectDirectory = path.resolve(__dirname, "..");
+const publicDirectory = path.join(projectDirectory, "public");
+const usersDirectory = path.join(projectDirectory, "data", "User");
+const studiesDirectory = path.join(projectDirectory, "data", "Studies");
 const sessions = new Map();
 
 app.use(express.json());
 app.use("/User", function (request, response) {
   response.sendStatus(404);
 });
-app.use(express.static(projectDirectory));
+app.use("/data", function (request, response) {
+  response.sendStatus(404);
+});
+app.use(express.static(publicDirectory));
 
 // Create a simple, safe file name from a title or name.
 function makeFileName(value) {
