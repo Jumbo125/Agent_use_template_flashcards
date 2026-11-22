@@ -54,6 +54,13 @@ Build a simple website for principal investigators, sub-investigators and physic
    9. **Save in directory**
    - Ändere die Pfade bitte um. Es wäre super wenn die Json aufgetielt sind. User/ *.json, Studies/ *.json
 
+   10. **atomar schreiben**
+   - alle JSON Dateien
+
+   11. **User organisation only for admin user**
+   - User panel erstellen lassen
+   - Zum ändern des BN oder PW
+
 ## Acceptance criteria (how I know a feature works)
 
 1. The page presents the title "Clinical Study Finder".
