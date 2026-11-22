@@ -58,8 +58,10 @@ reorganization; they are historical, not the current locations. See
 
 ## Next
 
-- Verify desktop and mobile behavior for the new Bootstrap-based layout in the browser.
-- Test the complete category -> list -> details flow in the browser.
+- The following checks have not yet been recorded as complete:
+  - Verify desktop and mobile behavior for the Bootstrap-based layout in the browser.
+  - Test the complete category -> list -> details flow in the browser.
+  - Test login, admin account changes, study creation/editing, and persistence after a server restart.
 - Replace sample study content with final study data when available.
 
 ## Decisions & notes
@@ -70,7 +72,7 @@ reorganization; they are historical, not the current locations. See
 - Recruiting status should be clearly represented with a check mark or cross.
 - Study details should open from each study row and allow return to the list.
 - The implementation uses plain HTML, CSS and JavaScript.
-- No Bootstrap integration was present in the inspected files.
+- Bootstrap 5 and Bootstrap Icons are loaded from a CDN; browser verification is still pending.
 - The category, study-list and details styling follows the existing light, professional visual design.
 
 ## Known problems
