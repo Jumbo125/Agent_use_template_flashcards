@@ -32,6 +32,10 @@
 - Added `package.json` with the start script and Express dependency.
 - Added API endpoints for login, study loading, study creation and study editing.
 - Connected the browser login and study form to the Express API.
+- Split persisted data into separate directories:
+  - User JSON files under `User/*.json`.
+  - Study JSON files under `Studies/*.json`.
+- Updated login and study API handling to read and write the split JSON directories.
 
 ## Next
 

@@ -116,7 +116,7 @@ function loadStudies() {
   return fetch("/api/studies")
     .then(function (response) {
       if (!response.ok) {
-        throw new Error("The studies.json file could not be loaded.");
+        throw new Error("The study JSON files could not be loaded.");
       }
       return response.json();
     })
